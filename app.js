@@ -10,6 +10,18 @@ var users = require('./routes/users');
 
 var app = express();
 
+var webpack = require('webpack');
+var config = require('./webpack.config');
+
+var compiler = webpack(config);
+
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
+
+app.use(require('webpack-hot-middleware')(compiler));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
