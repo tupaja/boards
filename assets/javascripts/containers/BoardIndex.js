@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchBoards } from '../actions';
+import { fetchGeolocatedBoards } from '../actions';
 
 class BoardIndex extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchBoards({lat: 51, lng: 17}));
+    dispatch(fetchGeolocatedBoards());
   }
 
   render() {
-    const { isFetching, items } = this.props.boards;
-
-    if (isFetching && items.length === 0) {
+    if (this.props.isFetching) {
       return(
-        <div>Loading...</div>
+        <div>Loading {this.props.isFetching}...</div>
       );
     } else {
       return (
         <div>
-          {items.map((board, index) =>
+          {this.props.boards.values.map((board, index) =>
             <div key={index}>
               <h3>{board.title}</h3>
               <p>{board.content}</p>
@@ -31,10 +29,22 @@ class BoardIndex extends Component {
 }
 
 function mapStateToProps(state) {
+  var isFetching = false;
+
+  if (state.boards.isFetching) {
+    isFetching = "boards"
+  }
+  else if (state.coords.isFetching) {
+    isFetching = "coords"
+  }
+
   return {
+    isFetching: isFetching,
     boards: {
-      isFetching: state.boards.isFetching,
-      items: state.boards.items || []
+      values: state.boards.values || []
+    },
+    coords: {
+      value: state.coords.value || {}
     }
   }
 }
