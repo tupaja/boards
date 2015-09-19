@@ -13,11 +13,23 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1>Boards</h1>
-        <Link to="/">Index</Link>
-        <Link to="/create">Create</Link>
-        {this.props.children}
-
+        <nav className="navbar navbar-default navbar-fixed-top">
+          <div className="container">
+            <div className="navbar-header">
+              <Link to="/" className="navbar-brand">Boards</Link>
+            </div>
+            <div className="collapse navbar-collapse">
+              <ul className="nav navbar-nav">
+                <li>
+                  <Link to="/create">Create</Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div className="container">
+          {this.props.children}
+        </div>
         <Loader loaded={!this.props.isFetching} scale={5} />
       </div>
     );
