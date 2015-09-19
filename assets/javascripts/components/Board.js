@@ -3,20 +3,15 @@ import React, { Component, PropTypes } from 'react';
 export default class Board extends Component {
   render() {
     return (
-      <li
-        onClick={this.props.onClick}
-        style={{
-          textDecoration: this.props.completed ? 'line-through' : 'none',
-          cursor: this.props.completed ? 'default' : 'pointer'
-        }}>
-        {this.props.text}
-      </li>
+      <div>
+        <h3>{this.props.title}</h3>
+        <p>{this.props.content}</p>
+      </div>
     );
   }
 }
 
 Board.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
-  completed: PropTypes.bool.isRequired
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired
 };

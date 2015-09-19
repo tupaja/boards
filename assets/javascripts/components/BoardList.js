@@ -6,9 +6,7 @@ export default class BoardList extends Component {
     return (
       <ul>
         {this.props.boards.map((board, index) =>
-          <Board {...board}
-                key={index}
-                onClick={() => this.props.onBoardClick(index)} />
+          <Board {...board} key={index} />
         )}
       </ul>
     );
@@ -16,9 +14,8 @@ export default class BoardList extends Component {
 }
 
 BoardList.propTypes = {
-  onBoardClick: PropTypes.func.isRequired,
   boards: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired
   }).isRequired).isRequired
 };

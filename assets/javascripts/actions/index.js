@@ -44,14 +44,13 @@ export function fetchBoards(coords) {
   }
 }
 
-export function fetchGeolocatedBoards() {
+export function fetchCoords() {
   return dispatch => {
     dispatch(requestCoords());
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         let { latitude: lat, longitude: lng } = position.coords
         dispatch(receiveCoords({lat, lng}));
-        dispatch(fetchBoards({lat, lng}));
       });
     }
   }
