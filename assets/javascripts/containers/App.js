@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { fetchCoords } from '../actions';
+import Loader from 'react-loader';
 
 class App extends Component {
   componentDidMount() {
@@ -13,10 +14,11 @@ class App extends Component {
     return (
       <div>
         <h1>Boards</h1>
-        <h3>{this.props.isFetching ? 'loading...' : ''}</h3>
         <Link to="/">Index</Link>
         <Link to="/create">Create</Link>
         {this.props.children}
+
+        <Loader loaded={!this.props.isFetching} scale={5} />
       </div>
     );
   }
