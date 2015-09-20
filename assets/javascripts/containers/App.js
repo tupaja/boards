@@ -30,7 +30,7 @@ class App extends Component {
         <div className="container">
           {this.props.children}
         </div>
-        <Loader loaded={!this.props.isFetching} scale={5} />
+        <Loader loaded={!this.props.showSpinner} scale={5} />
       </div>
     );
   }
@@ -38,8 +38,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    isFetching: state.indicator.isFetching,
-    coords: state.coords.value
+    showSpinner: state.showSpinner
   };
 }
 

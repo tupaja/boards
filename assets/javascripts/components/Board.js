@@ -1,6 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import addons from "react/addons";
+let { addons: { PureRenderMixin } } = addons;
 
 export default class Board extends Component {
+  shouldComponentUpdate() {
+    return PureRenderMixin.shouldComponentUpdate.apply(this, arguments);
+  }
+
   render() {
     return (
       <div>

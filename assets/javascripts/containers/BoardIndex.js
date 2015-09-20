@@ -38,8 +38,8 @@ class BoardIndex extends Component {
 
 function mapStateToProps(state) {
   return {
-    coords: state.coords.value,
-    boards: state.boards.value || []
+    coords: state.coords,
+    boards: state.boards
   };
 }
 
