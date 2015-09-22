@@ -20,9 +20,10 @@ class App extends Component {
             </div>
             <div className="collapse navbar-collapse">
               <ul className="nav navbar-nav">
-                <li>
-                  <Link to="/create">Create</Link>
-                </li>
+                <li><Link to="/create">Create</Link></li>
+              </ul>
+              <ul className="nav navbar-nav navbar-right">
+                <li><a href="/auth/facebook/">Log in with Facebook</a></li>
               </ul>
             </div>
           </div>
