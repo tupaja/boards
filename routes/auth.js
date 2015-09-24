@@ -1,5 +1,7 @@
 var express = require('express');
-var passport = require("passport");
+var passport = require('passport');
+var jwt = require('jsonwebtoken');
+var config = require('config');
 var router = express.Router();
 
 router.get('/facebook',
@@ -8,6 +10,9 @@ router.get('/facebook',
 router.get('/facebook/callback',
   passport.authenticate('facebook', { session: false, failureRedirect: '/' }),
   function(req, res) {
+    res.cookie("token",
+      jwt.sign({ email: req.user.emails[0].value }, config.get("jwtSecret")),
+      { httpOnly: true });
     res.redirect('/');
   });
 

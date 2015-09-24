@@ -1,16 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchCoords } from '../actions';
+import { fetchCoords, fetchMe } from '../actions';
 import Loader from 'react-loader';
 
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
+    dispatch(fetchMe());
     dispatch(fetchCoords());
   }
 
   render() {
+    let headerBlock = this.props.me ?
+      <li><Link to="/create">Create</Link></li> : ""
+
+    let loginBlock = this.props.me ?
+      <li><a>{ this.props.me.email }</a></li> :
+      <li><a href="/auth/facebook/">Log in with Facebook</a></li>
+
     return (
       <div>
         <nav className="navbar navbar-default navbar-fixed-top">
@@ -20,10 +28,10 @@ class App extends Component {
             </div>
             <div className="collapse navbar-collapse">
               <ul className="nav navbar-nav">
-                <li><Link to="/create">Create</Link></li>
+                { headerBlock }
               </ul>
               <ul className="nav navbar-nav navbar-right">
-                <li><a href="/auth/facebook/">Log in with Facebook</a></li>
+                { loginBlock }
               </ul>
             </div>
           </div>
@@ -39,7 +47,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    showSpinner: state.showSpinner
+    showSpinner: state.showSpinner,
+    me: state.me
   };
 }
 
