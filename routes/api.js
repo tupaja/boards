@@ -15,8 +15,8 @@ router.route("/boards").get(function (req, res) {
 
 router.route("/me").get(function (req, res) {
   jwt.verify(req.cookies.token, config.get("jwtSecret"), function(err, decoded) {
-    if (err) { res.status(401); }
-    else { res.json(decoded); }
+    if (err) { res.json({ auth: false }); }
+    else { decoded.auth = true; res.json(decoded); }
   });
 });
 

@@ -7,15 +7,14 @@ import Loader from 'react-loader';
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchMe());
     dispatch(fetchCoords());
   }
 
   render() {
-    let headerBlock = this.props.me ?
+    let headerBlock = this.props.me.auth ?
       <li><Link to="/create">Create</Link></li> : ""
 
-    let loginBlock = this.props.me ?
+    let loginBlock = this.props.me.auth ?
       <li><a>{ this.props.me.email }</a></li> :
       <li><a href="/auth/facebook/">Log in with Facebook</a></li>
 

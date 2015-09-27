@@ -13,20 +13,32 @@ import BoardIndex from './containers/BoardIndex';
 import BoardCreate from './containers/BoardCreate';
 
 import configureStore from './store/configureStore';
+import { fetchMe } from './actions';
 
 const store = configureStore();
 let history = new BrowserHistory();
 
-React.render(
-  <Provider store={store}>
-    {() =>
-      <Router history={history}>
-        <Route component={App}>
-          <Route path="/" component={BoardIndex} />
-          <Route path="create" component={BoardCreate} />
-        </Route>
-      </Router>
-    }
-  </Provider>,
-  document.getElementById('root')
-);
+var authRequired = function(state, transition) {
+  if (!store.getState().me.auth) {
+    transition.to("/");
+  }
+}
+
+store.dispatch(fetchMe());
+store.subscribe(() => {
+  if (store.getState().me) {
+    React.render(
+      <Provider store={store}>
+        {() =>
+          <Router history={history}>
+            <Route component={App}>
+              <Route path="/" component={BoardIndex} />
+              <Route path="create" component={BoardCreate} onEnter={authRequired} />
+            </Route>
+          </Router>
+        }
+      </Provider>,
+      document.getElementById('root')
+    );
+  }
+});
