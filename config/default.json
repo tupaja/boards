@@ -4,5 +4,12 @@
     "clientSecret": "",
     "callbackURL": ""
   },
-  "jwtSecret": ""
+  "jwtSecret": "",
+  "dbConfig" : {
+    "dbName" : "",
+    "tableName": "",
+    "indexName": "",
+    "host": "",
+    "port": ""
+  }
 }

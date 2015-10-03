@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 
 export const REQUEST_BOARDS = 'REQUEST_BOARDS';
 export const RECEIVE_BOARDS = 'RECEIVE_BOARDS';
@@ -54,18 +54,16 @@ function receiveMe(me) {
 export function fetchBoards(coords) {
   return dispatch => {
     dispatch(requestBoards(coords));
-    return fetch("/api/boards", { credentials: 'same-origin' })
-      .then(req => req.json())
-      .then(json => dispatch(receiveBoards(coords, json)));
+    return axios("/api/boards", { params: coords })
+      .then(response => dispatch(receiveBoards(coords, response.data)));
   }
 }
 
 export function fetchMe(coords) {
   return dispatch => {
     dispatch(requestMe());
-    return fetch("/api/me", { credentials: 'same-origin' })
-      .then(req => req.json())
-      .then(json => dispatch(receiveMe(json)));
+    return axios("/api/me")
+      .then(response => dispatch(receiveMe(response.data)));
   }
 }
 
