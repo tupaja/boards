@@ -4,25 +4,13 @@ import { fetchBoards } from '../actions';
 import BoardList from '../components/BoardList';
 
 class BoardIndex extends Component {
-  componentWillReceiveProps(nextProps) {
-    if (this.props.coords !== nextProps.coords) {
-      this.fetchBoards(nextProps.coords);
-    }
-  }
-
   componentDidMount() {
-    if (this.props.coords) {
-      this.fetchBoards(this.props.coords);
-    }
+    this.props.dispatch(fetchBoards(this.props.coords));
   }
 
   handleRefresh = (event) => {
-    this.fetchBoards(this.props.coords);
+    this.props.dispatch(fetchBoards(this.props.coords));
   };
-
-  fetchBoards = (coords) => {
-    this.props.dispatch(fetchBoards(coords));
-  }
 
   render() {
     return (
@@ -38,7 +26,6 @@ class BoardIndex extends Component {
 
 function mapStateToProps(state) {
   return {
-    coords: state.coords,
     boards: state.boards
   };
 }

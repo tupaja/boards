@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { REQUEST_COORDS, RECEIVE_COORDS,
   REQUEST_BOARDS, RECEIVE_BOARDS,
-  REQUEST_ME, RECEIVE_ME } from '../actions';
+  REQUEST_ME, RECEIVE_ME, ERROR } from '../actions';
 
 function coords(state = null, action) {
   switch (action.type) {
@@ -32,6 +32,8 @@ function me(state = null, action) {
 
 function showSpinner(state = false, action) {
   switch (true) {
+    case /ERROR/.test(action.type):
+      return false;
     case /REQUEST_/.test(action.type):
       return true;
     case /RECEIVE_/.test(action.type):
@@ -41,11 +43,21 @@ function showSpinner(state = false, action) {
   }
 }
 
+function error(state = null, action) {
+  switch (action.type) {
+    case ERROR:
+      return action.error;
+    default:
+      return state;
+  }
+}
+
 const boardApp = combineReducers({
   coords,
   boards,
   showSpinner,
-  me
+  me,
+  error
 });
 
 export default boardApp;

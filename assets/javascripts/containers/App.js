@@ -1,13 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchCoords, fetchMe } from '../actions';
+import { fetchCoords, fetchMe, throwError } from '../actions';
 import Loader from 'react-loader';
 
 class App extends Component {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchCoords());
+    this.props.dispatch(fetchCoords());
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.error) {
+      setTimeout(() => this.props.dispatch(throwError(null)), 5000);
+    }
   }
 
   render() {
@@ -17,6 +22,14 @@ class App extends Component {
     let loginBlock = this.props.me.auth ?
       <li><a>{ this.props.me.email }</a></li> :
       <li><a href="/auth/facebook/">Log in with Facebook</a></li>
+
+    let children = this.props.coords ?
+      React.cloneElement(this.props.children, { coords: this.props.coords }) :
+      null
+
+    let errorBlock = this.props.error ?
+      <div className="alert alert-danger" role="alert">{this.props.error}</div> :
+      null
 
     return (
       <div>
@@ -36,7 +49,8 @@ class App extends Component {
           </div>
         </nav>
         <div className="container">
-          {this.props.children}
+          { errorBlock }
+          { children }
         </div>
         <Loader loaded={!this.props.showSpinner} scale={5} />
       </div>
@@ -47,6 +61,8 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     showSpinner: state.showSpinner,
+    coords: state.coords,
+    error: state.error,
     me: state.me
   };
 }

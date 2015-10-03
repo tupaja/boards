@@ -3,11 +3,16 @@ import axios from 'axios';
 export const REQUEST_BOARDS = 'REQUEST_BOARDS';
 export const RECEIVE_BOARDS = 'RECEIVE_BOARDS';
 
+export const REQUEST_ADD_BOARD = 'REQUEST_ADD_BOARD';
+export const RECEIVE_ADD_BOARD = 'RECEIVE_ADD_BOARD';
+
 export const REQUEST_COORDS = 'REQUEST_COORDS';
 export const RECEIVE_COORDS = 'RECEIVE_COORDS';
 
 export const REQUEST_ME = 'REQUEST_ME';
 export const RECEIVE_ME = 'RECEIVE_ME';
+
+export const ERROR = 'ERROR';
 
 function requestBoards(coords) {
   return {
@@ -21,6 +26,20 @@ function receiveBoards(coords, boards) {
     type: RECEIVE_BOARDS,
     coords,
     boards
+  };
+}
+
+function requestAddBoard(board) {
+  return {
+    type: REQUEST_ADD_BOARD,
+    board
+  };
+}
+
+function receiveAddBoard(board) {
+  return {
+    type: RECEIVE_ADD_BOARD,
+    board
   };
 }
 
@@ -51,11 +70,28 @@ function receiveMe(me) {
   };
 }
 
+export function throwError(error) {
+  return {
+    type: ERROR,
+    error
+  }
+}
+
 export function fetchBoards(coords) {
   return dispatch => {
     dispatch(requestBoards(coords));
     return axios("/api/boards", { params: coords })
-      .then(response => dispatch(receiveBoards(coords, response.data)));
+      .then(response => dispatch(receiveBoards(coords, response.data)))
+      .catch(error => dispatch(throwError(error.statusText)));
+  }
+}
+
+export function addBoard(board) {
+  return dispatch => {
+    dispatch(requestAddBoard(board));
+    return axios.post("/api/boards", { board })
+      .then(response => dispatch(receiveAddBoard(response.data)))
+      .catch(error => dispatch(throwError(error.statusText)));
   }
 }
 
@@ -63,7 +99,7 @@ export function fetchMe(coords) {
   return dispatch => {
     dispatch(requestMe());
     return axios("/api/me")
-      .then(response => dispatch(receiveMe(response.data)));
+      .then(response => dispatch(receiveMe(response.data)))
   }
 }
 
