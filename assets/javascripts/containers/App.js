@@ -1,18 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchCoords, fetchMe, throwError } from '../actions';
+import { fetchCoords } from '../actions';
 import Loader from 'react-loader';
+import ErrorBox from './ErrorBox';
 
 class App extends Component {
   componentDidMount() {
     this.props.dispatch(fetchCoords());
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.error) {
-      setTimeout(() => this.props.dispatch(throwError(null)), 5000);
-    }
   }
 
   render() {
@@ -25,10 +20,6 @@ class App extends Component {
 
     let children = this.props.coords ?
       React.cloneElement(this.props.children, { coords: this.props.coords }) :
-      null
-
-    let errorBlock = this.props.error ?
-      <div className="alert alert-danger" role="alert">{this.props.error}</div> :
       null
 
     return (
@@ -49,7 +40,7 @@ class App extends Component {
           </div>
         </nav>
         <div className="container">
-          { errorBlock }
+          <ErrorBox />
           { children }
         </div>
         <Loader loaded={!this.props.showSpinner} scale={5} />
@@ -62,7 +53,6 @@ function mapStateToProps(state) {
   return {
     showSpinner: state.showSpinner,
     coords: state.coords,
-    error: state.error,
     me: state.me
   };
 }

@@ -49,10 +49,4 @@ var BoardCreate = React.createClass({
   }
 });
 
-function mapStateToProps(state) {
-  return {
-    coords: state.coords
-  };
-}
-
-export default connect(mapStateToProps)(BoardCreate);
+export default connect()(BoardCreate);
