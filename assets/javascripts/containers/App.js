@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { fetchCoords } from '../actions';
 import Loader from 'react-loader';
-import ErrorBox from './ErrorBox';
+import MessageBox from './MessageBox';
 
 class App extends Component {
   componentDidMount() {
@@ -18,9 +18,11 @@ class App extends Component {
       <li><a>{ this.props.me.email }</a></li> :
       <li><a href="/auth/facebook/">Log in with Facebook</a></li>
 
-    let children = this.props.coords ?
-      React.cloneElement(this.props.children, { coords: this.props.coords }) :
-      null
+    let mainContainer = this.props.coords ?
+      <div>
+        <MessageBox />
+        { this.props.children }
+      </div> : null
 
     return (
       <div>
@@ -40,8 +42,7 @@ class App extends Component {
           </div>
         </nav>
         <div className="container">
-          <ErrorBox />
-          { children }
+          { mainContainer }
         </div>
         <Loader loaded={!this.props.showSpinner} scale={5} />
       </div>

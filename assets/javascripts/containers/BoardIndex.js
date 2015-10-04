@@ -13,11 +13,14 @@ class BoardIndex extends Component {
   };
 
   render() {
+    let refreshBtn = this.props.needsRefresh ?
+      <button type="button" className="btn" onClick={this.handleRefresh}>
+        <span className="glyphicon glyphicon-refresh"></span> REFRESH
+      </button> : null
+
     return (
       <div>
-        <button type="button" className="btn" onClick={this.handleRefresh}>
-          <span className="glyphicon glyphicon-refresh"></span> REFRESH
-        </button>
+        { refreshBtn }
         <BoardList boards={this.props.boards} />
       </div>
     );
@@ -26,7 +29,9 @@ class BoardIndex extends Component {
 
 function mapStateToProps(state) {
   return {
-    boards: state.boards
+    coords: state.coords,
+    boards: state.boards.list,
+    needsRefresh: state.boards.dirty
   };
 }
 

@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
 import { REQUEST_COORDS, RECEIVE_COORDS,
   REQUEST_BOARDS, RECEIVE_BOARDS,
-  REQUEST_ME, RECEIVE_ME, ERROR } from '../actions';
+  REQUEST_ME, RECEIVE_ME,
+  NEW_MESSAGE, REMOVE_MESSAGE,
+  NEW_BOARDS } from '../actions';
 
 function coords(state = null, action) {
   switch (action.type) {
@@ -12,10 +14,12 @@ function coords(state = null, action) {
   }
 }
 
-function boards(state = [], action) {
+function boards(state = { list: [], dirty: false }, action) {
   switch (action.type) {
   case RECEIVE_BOARDS:
-    return action.boards;
+    return { list: action.boards, dirty: false };
+  case NEW_BOARDS:
+    return { list: state.list, dirty: true }
   default:
     return state;
   }
@@ -32,7 +36,7 @@ function me(state = null, action) {
 
 function showSpinner(state = false, action) {
   switch (true) {
-    case /ERROR/.test(action.type):
+    case action.message && action.message.type == "danger":
       return false;
     case /REQUEST_/.test(action.type):
       return true;
@@ -43,10 +47,12 @@ function showSpinner(state = false, action) {
   }
 }
 
-function error(state = null, action) {
+function messages(state = [], action) {
   switch (action.type) {
-    case ERROR:
-      return action.error;
+    case NEW_MESSAGE:
+      return [action.message, ...state];
+    case REMOVE_MESSAGE:
+      return state.slice(0, -1)
     default:
       return state;
   }
@@ -57,7 +63,7 @@ const boardApp = combineReducers({
   boards,
   showSpinner,
   me,
-  error
+  messages
 });
 
 export default boardApp;

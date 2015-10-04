@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const REQUEST_BOARDS = 'REQUEST_BOARDS';
 export const RECEIVE_BOARDS = 'RECEIVE_BOARDS';
+export const NEW_BOARDS = 'NEW_BOARDS';
 
 export const REQUEST_ADD_BOARD = 'REQUEST_ADD_BOARD';
 export const RECEIVE_ADD_BOARD = 'RECEIVE_ADD_BOARD';
@@ -12,7 +13,8 @@ export const RECEIVE_COORDS = 'RECEIVE_COORDS';
 export const REQUEST_ME = 'REQUEST_ME';
 export const RECEIVE_ME = 'RECEIVE_ME';
 
-export const ERROR = 'ERROR';
+export const NEW_MESSAGE = 'NEW_MESSAGE';
+export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
 
 function requestBoards(coords) {
   return {
@@ -26,6 +28,12 @@ function receiveBoards(coords, boards) {
     type: RECEIVE_BOARDS,
     coords,
     boards
+  };
+}
+
+export function newBoards() {
+  return {
+    type: NEW_BOARDS
   };
 }
 
@@ -70,10 +78,25 @@ function receiveMe(me) {
   };
 }
 
-export function throwError(error) {
+function newMessage(message) {
   return {
-    type: ERROR,
-    error
+    type: NEW_MESSAGE,
+    message
+  }
+}
+
+function removeMessage() {
+  return {
+    type: REMOVE_MESSAGE
+  }
+}
+
+export function addMessage(message) {
+  return dispatch => {
+    dispatch(newMessage(message))
+    setTimeout(() => {
+      dispatch(removeMessage())
+    }, 5000)
   }
 }
 
@@ -82,7 +105,8 @@ export function fetchBoards(coords) {
     dispatch(requestBoards(coords));
     return axios("/api/boards", { params: coords })
       .then(response => dispatch(receiveBoards(coords, response.data)))
-      .catch(error => dispatch(throwError(error.statusText)));
+      .catch(error => dispatch(
+        addMessage({ text: error.statusText, type: "danger" })));
   }
 }
 
@@ -91,7 +115,8 @@ export function addBoard(board) {
     dispatch(requestAddBoard(board));
     return axios.post("/api/boards", { board })
       .then(response => dispatch(receiveAddBoard(response.data)))
-      .catch(error => dispatch(throwError(error.statusText)));
+      .catch(error => dispatch(
+        addMessage({ text: error.statusText, type: "danger" })));
   }
 }
 
