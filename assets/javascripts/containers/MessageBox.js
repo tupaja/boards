@@ -9,7 +9,7 @@ export default class MessageBox extends Component {
         query: `lat=${this.props.coords.lat}&lng=${this.props.coords.lng}`
       });
 
-      connection.on('changes', (data) => {
+      connection.on('new_boards', (data) => {
         this.props.dispatch(addMessage(
           { type: "info", text: "Found new boards in your location!"}));
         this.props.dispatch(newBoards());

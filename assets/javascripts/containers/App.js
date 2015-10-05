@@ -15,7 +15,7 @@ class App extends Component {
       <li><Link to="/create">Create</Link></li> : ""
 
     let loginBlock = this.props.me.auth ?
-      <li><a>{ this.props.me.email }</a></li> :
+      <li><a href="/auth/logout/">{ this.props.me.email } (logout)</a></li> :
       <li><a href="/auth/facebook/">Log in with Facebook</a></li>
 
     let mainContainer = this.props.coords ?

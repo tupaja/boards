@@ -46,6 +46,7 @@ var BoardCreate = React.createClass({
     e.preventDefault();
     var value = this.refs.form.getValue();
     if (value) { this.props.dispatch(addBoard(value)); }
+    window.location = "/"
   }
 });
 
