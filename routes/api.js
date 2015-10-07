@@ -30,6 +30,7 @@ router.route('/boards').get(function (req, res) {
   r.db(config.get('dbConfig').dbName)
     .table(config.get('dbConfig').tableName)
     .insert(_.merge(_.pick(req.body.board, ["title", "content"]), {
+      user: req.user,
       created_at: moment().format(),
       location: r.point(
         parseFloat(req.body.board.lat), parseFloat(req.body.board.lng))

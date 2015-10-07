@@ -14,14 +14,20 @@ class BoardIndex extends Component {
 
   render() {
     let refreshBtn = this.props.needsRefresh ?
-      <button type="button" className="btn" onClick={this.handleRefresh}>
-        <span className="glyphicon glyphicon-refresh"></span> REFRESH
+      <button
+        type="button"
+        className="btn refresh-btn col-md-12"
+        onClick={this.handleRefresh}>
+          <span className="glyphicon glyphicon-refresh">
+          </span> refresh the list
       </button> : null
 
     return (
       <div>
-        { refreshBtn }
-        <BoardList boards={this.props.boards} />
+        <div className="row">{ refreshBtn }</div>
+        <div className="row">
+          <BoardList boards={this.props.boards} />
+        </div>
       </div>
     );
   }

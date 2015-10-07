@@ -20,8 +20,8 @@ export default class MessageBox extends Component {
   render() {
     return (
       <div>
-        { this.props.messages.map((message) =>
-          <div className={"alert alert-" + message.type} role="alert">
+        { this.props.messages.map((message, index) =>
+          <div key={index} className={"alert alert-" + message.type} role="alert">
             {message.text}
           </div>
         ) }

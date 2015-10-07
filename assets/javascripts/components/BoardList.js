@@ -4,11 +4,11 @@ import Board from './Board';
 export default class BoardList extends Component {
   render() {
     return (
-      <ul>
+      <div>
         {this.props.boards.map((board, index) =>
           <Board {...board} key={index} />
         )}
-      </ul>
+      </div>
     );
   }
 }

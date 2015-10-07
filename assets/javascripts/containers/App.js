@@ -19,9 +19,13 @@ class App extends Component {
       <li><a href="/auth/facebook/">Log in with Facebook</a></li>
 
     let mainContainer = this.props.coords ?
-      <div>
-        <MessageBox />
-        { this.props.children }
+      <div className="row">
+        <div className="col-md-8">
+          { this.props.children }
+        </div>
+        <div className="col-md-4">
+          <MessageBox />
+        </div>
       </div> : null
 
     return (
