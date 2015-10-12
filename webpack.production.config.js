@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   entry: './assets/javascripts/index',
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'public', 'static'),
     filename: 'bundle.js'
   },
   plugins: [
