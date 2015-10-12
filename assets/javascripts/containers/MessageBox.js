@@ -5,7 +5,7 @@ import { addMessage, newBoards } from '../actions';
 export default class MessageBox extends Component {
   componentDidMount() {
     if (this.props.coords) {
-      var connection = io.connect('http://localhost:3000', {
+      var connection = io.connect(window.config.socketUrl, {
         query: `lat=${this.props.coords.lat}&lng=${this.props.coords.lng}`
       });
 

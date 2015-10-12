@@ -11,5 +11,8 @@
     "indexName": "",
     "host": "",
     "port": ""
+  },
+  "client" : {
+    "socketUrl" : ""
   }
 }
