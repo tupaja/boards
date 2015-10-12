@@ -13,7 +13,7 @@ router.route('/boards').get(function (req, res) {
     .table(config.get('dbConfig').tableName)
     .getIntersecting(
       r.circle(r.point(parseFloat(req.query.lat), parseFloat(req.query.lng)),
-        100, { unit: "km" }), { index: config.get('dbConfig').indexName })
+        5, { unit: "km" }), { index: config.get('dbConfig').indexName })
     .orderBy(r.desc('created_at'))
     .limit(10)
     .run(req.app.connection, function (err, cursor) {

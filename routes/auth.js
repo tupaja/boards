@@ -5,7 +5,7 @@ var config = require('config');
 var router = express.Router();
 
 router.get('/facebook',
-  passport.authenticate('facebook', { session: false }));
+  passport.authenticate('facebook', { session: false, scope: ["email"] }));
 
 router.get('/facebook/callback',
   passport.authenticate('facebook', { session: false, failureRedirect: '/' }),
