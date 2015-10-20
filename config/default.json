@@ -1,18 +1,18 @@
 {
   "facebookOAuth": {
-    "clientID": "",
-    "clientSecret": "",
-    "callbackURL": ""
+    "clientID": "CLIENT_ID",
+    "clientSecret": "CLIENT_SECRET",
+    "callbackURL": "http://localhost:3000/auth/facebook/callback"
   },
-  "jwtSecret": "",
+  "jwtSecret": "JWT_SECRET",
   "dbConfig" : {
-    "dbName" : "",
-    "tableName": "",
-    "indexName": "",
-    "host": "",
-    "port": ""
+    "dbName" : "boards",
+    "tableName": "boards_development",
+    "indexName": "location",
+    "host": "localhost",
+    "port": 28015
   },
   "client" : {
-    "socketUrl" : ""
+    "socketUrl" : "http://localhost:3000"
   }
 }
