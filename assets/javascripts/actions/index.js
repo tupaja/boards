@@ -16,6 +16,15 @@ export const RECEIVE_ME = 'RECEIVE_ME';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
 
+export const RANGE_SET = 'RANGE_SET';
+
+function rangeSet(range) {
+  return {
+    type: RANGE_SET,
+    range
+  }
+}
+
 function requestBoards(coords) {
   return {
     type: REQUEST_BOARDS,
@@ -137,5 +146,12 @@ export function fetchCoords() {
         dispatch(receiveCoords({lat, lng}));
       });
     }
+  }
+}
+
+export function setRange(range) {
+  return dispatch => {
+    io().emit("change-range", range);
+    dispatch(rangeSet(range));
   }
 }

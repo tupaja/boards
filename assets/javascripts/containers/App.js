@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchCoords } from '../actions';
 import Loader from 'react-loader';
 import MessageBox from './MessageBox';
+import RangeSetter from './RangeSetter';
 
 class App extends Component {
   componentDidMount() {
@@ -37,6 +38,7 @@ class App extends Component {
             </div>
             <div className="collapse navbar-collapse">
               <ul className="nav navbar-nav">
+                <li><RangeSetter /></li>
                 { headerBlock }
               </ul>
               <ul className="nav navbar-nav navbar-right">

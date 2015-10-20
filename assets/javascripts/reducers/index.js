@@ -3,12 +3,14 @@ import { REQUEST_COORDS, RECEIVE_COORDS,
   REQUEST_BOARDS, RECEIVE_BOARDS,
   REQUEST_ME, RECEIVE_ME,
   NEW_MESSAGE, REMOVE_MESSAGE,
-  NEW_BOARDS } from '../actions';
+  NEW_BOARDS, RANGE_SET } from '../actions';
 
-function coords(state = null, action) {
+function coords(state = { range: "5" }, action) {
   switch (action.type) {
   case RECEIVE_COORDS:
-    return { lat: action.coords.lat, lng: action.coords.lng };
+    return Object.assign({}, state, action.coords);
+  case RANGE_SET:
+    return Object.assign({}, state, { range: action.range });
   default:
     return state;
   }

@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchBoards } from '../actions';
 import BoardList from '../components/BoardList';
+import shallowEqual from 'react/lib/shallowEqual';
 
 class BoardIndex extends Component {
   componentDidMount() {
     this.props.dispatch(fetchBoards(this.props.coords));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!shallowEqual(this.props.coords, nextProps.coords)) {
+      this.props.dispatch(fetchBoards(nextProps.coords));
+    }
   }
 
   handleRefresh = (event) => {
