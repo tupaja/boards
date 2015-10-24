@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addMessage, newBoards } from '../actions';
 
 export default class MessageBox extends Component {
   componentDidMount() {
@@ -10,9 +8,9 @@ export default class MessageBox extends Component {
       });
 
       connection.on('new_boards', (data) => {
-        this.props.dispatch(addMessage(
-          { type: "info", text: "Found new boards in your location!"}));
-        this.props.dispatch(newBoards());
+        this.props.addMessage(
+          { type: "info", text: "Found new boards in your location!"});
+        this.props.newBoards();
       });
     }
   }
@@ -30,11 +28,4 @@ export default class MessageBox extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    messages: state.messages,
-    coords: state.coords
-  };
-}
-
-export default connect(mapStateToProps)(MessageBox);
+export default MessageBox;

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { setRange } from '../actions';
 
 export default class RangeSetter extends Component {
   handleChange = (event) => {
-    this.props.dispatch(setRange(event.target.value));
+    this.props.setRange(event.target.value);
   };
 
   render() {
@@ -22,10 +20,4 @@ export default class RangeSetter extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    range: state.coords.range
-  };
-}
-
-export default connect(mapStateToProps)(RangeSetter);
+export default RangeSetter;

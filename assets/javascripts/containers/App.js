@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchCoords } from '../actions';
+import { bindActionCreators } from 'redux';
+import * as actionCreators from '../actions';
 import Loader from 'react-loader';
-import MessageBox from './MessageBox';
-import RangeSetter from './RangeSetter';
+import MessageBox from '../components/MessageBox';
+import RangeSetter from '../components/RangeSetter';
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchCoords());
+    this.props.actions.fetchCoords();
   }
 
   render() {
@@ -19,13 +20,18 @@ class App extends Component {
       <li><a href="/auth/logout/">{ this.props.me.email } (logout)</a></li> :
       <li><a href="/auth/facebook/">Log in with Facebook</a></li>
 
-    let mainContainer = this.props.coords ?
+    let mainContainer = (this.props.coords.lat && this.props.coords.lng) ?
       <div className="row">
         <div className="col-md-8">
           { this.props.children }
         </div>
         <div className="col-md-4">
-          <MessageBox />
+          <MessageBox
+            messages={this.props.messages}
+            coords={this.props.coords}
+            addMessage={this.props.actions.addMessage}
+            newBoards={this.props.actions.newBoards}
+          />
         </div>
       </div> : null
 
@@ -38,7 +44,12 @@ class App extends Component {
             </div>
             <div className="collapse navbar-collapse">
               <ul className="nav navbar-nav">
-                <li><RangeSetter /></li>
+                <li>
+                  <RangeSetter
+                    setRange={this.props.actions.setRange}
+                    range={this.props.range}
+                  />
+                </li>
                 { headerBlock }
               </ul>
               <ul className="nav navbar-nav navbar-right">
@@ -60,8 +71,14 @@ function mapStateToProps(state) {
   return {
     showSpinner: state.showSpinner,
     coords: state.coords,
-    me: state.me
+    me: state.me,
+    range: state.coords.range,
+    messages: state.messages
   };
 }
 
-export default connect(mapStateToProps)(App);
+function mapDispatchToProps(dispatch) {
+  return { actions: bindActionCreators(actionCreators, dispatch) };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
