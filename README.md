@@ -12,3 +12,7 @@ It's supposed to be a geolocalized message board system - still work in progress
 * edit ```config/development.json```
 * run ```npm start```
 * open http://localhost:3000
+
+### Deployed version ###
+
+http://46.101.208.107/
