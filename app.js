@@ -43,6 +43,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 
+app.use(function(req, res, next) {
+  res.locals.config = require('config').get("client");
+  next();
+});
+
 app.use('/auth', auth);
 app.use('/api', api);
 app.use('/', routes);
