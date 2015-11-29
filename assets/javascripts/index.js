@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../stylesheets/index.sass';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import BrowserHistory from 'react-router/lib/BrowserHistory';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -27,16 +28,14 @@ var authRequired = function(state, transition) {
 store.dispatch(fetchMe());
 store.subscribe(() => {
   if (store.getState().me) {
-    React.render(
+    ReactDOM.render(
       <Provider store={store}>
-        {() =>
-          <Router history={history}>
-            <Route component={App}>
-              <Route path="/" component={BoardIndex} />
-              <Route path="create" component={BoardCreate} onEnter={authRequired} />
-            </Route>
-          </Router>
-        }
+        <Router history={history}>
+          <Route component={App}>
+            <Route path="/" component={BoardIndex} />
+            <Route path="create" component={BoardCreate} onEnter={authRequired} />
+          </Route>
+        </Router>
       </Provider>,
       document.getElementById('root')
     );

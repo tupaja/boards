@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import addons from "react/addons";
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
-
-let { addons: { PureRenderMixin } } = addons;
 
 export default class Board extends Component {
   shouldComponentUpdate() {

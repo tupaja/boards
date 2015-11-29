@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchBoards } from '../actions';
 import BoardList from '../components/BoardList';
-import shallowEqual from 'react/lib/shallowEqual';
+import shallowEqual from 'react-addons-shallow-compare';
 
 class BoardIndex extends Component {
   componentDidMount() {
