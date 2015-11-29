@@ -4,10 +4,10 @@ import '../stylesheets/index.sass';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BrowserHistory from 'react-router/lib/BrowserHistory';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { Router, Route, DefaultRoute } from 'react-router';
+import { Router, Route } from 'react-router';
+import createBrowserHistory from 'history/lib/createBrowserHistory'
 
 import App from './containers/App';
 import BoardIndex from './containers/BoardIndex';
@@ -17,17 +17,18 @@ import configureStore from './store/configureStore';
 import { fetchMe } from './actions';
 
 const store = configureStore();
-let history = new BrowserHistory();
+const history = createBrowserHistory()
 
-var authRequired = function(state, transition) {
+var authRequired = function(state, replaceState) {
   if (!store.getState().me.auth) {
-    transition.to("/");
+    replaceState(null, "/")
   }
 }
 
 store.dispatch(fetchMe());
-store.subscribe(() => {
+let unsubscribe = store.subscribe(() => {
   if (store.getState().me) {
+    unsubscribe();
     ReactDOM.render(
       <Provider store={store}>
         <Router history={history}>
